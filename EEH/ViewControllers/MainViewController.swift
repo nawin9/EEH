@@ -163,8 +163,10 @@ extension MainViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueTaskDetail" {
-            if let _ = segue.destination as? TaskDetailViewController {
-                print(sender as! IndexPath)
+            if let destinationVC = segue.destination as? TaskDetailViewController {
+                if let cell = self.collectionView.cellForItem(at: sender as! IndexPath) as? TaskCell, let task = cell.element {
+                    destinationVC.task = task
+                }
             }
         } else if segue.identifier == "segueTaskCreate" {
             if let _ = segue.destination as? TaskCreateViewController {

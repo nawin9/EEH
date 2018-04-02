@@ -70,12 +70,23 @@
                                     <segue destination="GMa-Sn-ksM" kind="show" id="7Gb-Pe-NC1"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign In for EEH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T6z-JQ-DRT">
+                                <rect key="frame" x="50" y="60" width="275" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="SI0-aT-MdY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                                <color key="textColor" red="0.0" green="0.6272127628326416" blue="0.70353025197982788" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.49059802293777466" green="0.791717529296875" blue="0.86773347854614258" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="T6z-JQ-DRT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="2E7-zf-RQS"/>
                             <constraint firstItem="BtL-cQ-wbF" firstAttribute="top" secondItem="MTH-Iz-7kS" secondAttribute="bottom" constant="10" id="3xA-CC-P7X"/>
                             <constraint firstItem="MTH-Iz-7kS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="7O6-Mh-WpB"/>
                             <constraint firstItem="QXp-US-q6w" firstAttribute="top" secondItem="BtL-cQ-wbF" secondAttribute="bottom" constant="50" id="MR1-pq-FHU"/>
+                            <constraint firstItem="T6z-JQ-DRT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="NuF-lc-jat"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MTH-Iz-7kS" secondAttribute="trailing" constant="40" id="Uil-is-2gP"/>
                             <constraint firstItem="Hzd-UC-G3s" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="YfP-69-hyy"/>
                             <constraint firstItem="BtL-cQ-wbF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="a12-3Z-dXU"/>
@@ -84,6 +95,7 @@
                             <constraint firstItem="MTH-Iz-7kS" firstAttribute="top" secondItem="Hzd-UC-G3s" secondAttribute="bottom" constant="10" id="nox-Zq-iT7"/>
                             <constraint firstItem="Hzd-UC-G3s" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" multiplier="1:3" id="pKi-Wg-BPe"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Hzd-UC-G3s" secondAttribute="trailing" constant="40" id="q81-F2-Jx8"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="T6z-JQ-DRT" secondAttribute="trailing" constant="50" id="r09-HV-Bhm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -168,17 +180,29 @@
                                     <action selector="dismissRegisterView:" destination="GMa-Sn-ksM" eventType="touchUpInside" id="25e-nq-K97"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up for EEH" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kg7-3z-5Un">
+                                <rect key="frame" x="50" y="60" width="275" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="g58-A1-fdG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                                <color key="textColor" red="0.0" green="0.6272127628326416" blue="0.70353025197982788" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.49059802293777466" green="0.791717529296875" blue="0.86773347854614258" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="w4B-Oc-gGT" firstAttribute="trailing" secondItem="xRo-kK-qFX" secondAttribute="trailing" constant="80" id="0lN-Ob-FRz"/>
+                            <constraint firstItem="w4B-Oc-gGT" firstAttribute="trailing" secondItem="kg7-3z-5Un" secondAttribute="trailing" constant="50" id="3KU-qD-HuO"/>
                             <constraint firstItem="L6h-4m-UFM" firstAttribute="leading" secondItem="w4B-Oc-gGT" secondAttribute="leading" constant="40" id="4Bz-nr-7MF"/>
                             <constraint firstItem="w4B-Oc-gGT" firstAttribute="trailing" secondItem="L6h-4m-UFM" secondAttribute="trailing" constant="40" id="GZU-Ly-jVO"/>
                             <constraint firstItem="w4B-Oc-gGT" firstAttribute="trailing" secondItem="JnH-qh-BTx" secondAttribute="trailing" constant="40" id="HSz-6E-e6S"/>
                             <constraint firstItem="w4B-Oc-gGT" firstAttribute="trailing" secondItem="fPB-vv-mdY" secondAttribute="trailing" constant="40" id="ICE-0q-wKY"/>
+                            <constraint firstItem="kg7-3z-5Un" firstAttribute="leading" secondItem="w4B-Oc-gGT" secondAttribute="leading" constant="50" id="OZb-M6-R9j"/>
                             <constraint firstItem="w4B-Oc-gGT" firstAttribute="trailing" secondItem="98d-ro-7Fq" secondAttribute="trailing" constant="40" id="RrC-RK-Irv"/>
                             <constraint firstItem="xRo-kK-qFX" firstAttribute="top" secondItem="fPB-vv-mdY" secondAttribute="bottom" constant="10" id="U49-vT-6IM"/>
                             <constraint firstItem="98d-ro-7Fq" firstAttribute="leading" secondItem="w4B-Oc-gGT" secondAttribute="leading" constant="40" id="XXB-Tl-zRC"/>
+                            <constraint firstItem="kg7-3z-5Un" firstAttribute="top" secondItem="w4B-Oc-gGT" secondAttribute="top" constant="40" id="beS-Dc-YsI"/>
                             <constraint firstItem="xRo-kK-qFX" firstAttribute="leading" secondItem="w4B-Oc-gGT" secondAttribute="leading" constant="80" id="by5-Bq-4so"/>
                             <constraint firstItem="98d-ro-7Fq" firstAttribute="top" secondItem="JnH-qh-BTx" secondAttribute="bottom" constant="10" id="fB7-uP-WKA"/>
                             <constraint firstItem="L6h-4m-UFM" firstAttribute="top" secondItem="98d-ro-7Fq" secondAttribute="bottom" constant="10" id="g41-8n-ePA"/>
@@ -485,6 +509,15 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="nNh-Qc-eVV"/>
                     </view>
+                    <connections>
+                        <outlet property="dateLabel" destination="Sfg-X2-1dz" id="7jd-21-D0T"/>
+                        <outlet property="deleteTaskButton" destination="43W-57-eje" id="hzW-6y-pla"/>
+                        <outlet property="descriptionTextView" destination="LQs-lf-ssW" id="Igx-70-or3"/>
+                        <outlet property="importantImageView" destination="eo5-VO-c3L" id="rI7-QV-6Fd"/>
+                        <outlet property="saveTaskButton" destination="hYi-XS-NDg" id="nUD-4i-N6p"/>
+                        <outlet property="titleTextField" destination="Aax-83-CZj" id="HWg-eQ-RB2"/>
+                        <outlet property="urgentImageView" destination="PcQ-X3-vOe" id="VNd-le-cs1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ca-1g-YpM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

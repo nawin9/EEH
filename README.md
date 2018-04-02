@@ -7,7 +7,6 @@
 ## TODOs
 
 *   [x] Integration with RxSwift
-*   [ ] Firebase connection
+*   [x] Firebase connection
 *   [ ] Localization
 *   [ ] Unit tests
-*   [ ] CI / CD

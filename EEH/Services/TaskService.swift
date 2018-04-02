@@ -18,12 +18,14 @@ protocol TaskServiceType {
 
 final class TaskService: TaskServiceType {
     func update(taskId: String, params: [String: AnyObject]) -> Observable<Bool> {
-        let ref = Database.database().reference().child("tasks").child(taskId)
+        let uid = UserDefaults.standard.string(forKey: "uid")!
+        let ref = Database.database().reference().child("tasks").child(uid).child(taskId)
         return ref.rx_setValue(value: params as AnyObject).map({ _ in true })
     }
     
     func delete(taskId: String) -> Observable<Bool> {
-        let ref = Database.database().reference().child("tasks").child(taskId)
+        let uid = UserDefaults.standard.string(forKey: "uid")!
+        let ref = Database.database().reference().child("tasks").child(uid).child(taskId)
         return ref.rx_removeValue().map({ _ in true })
     }
     
@@ -31,7 +33,6 @@ final class TaskService: TaskServiceType {
         let uuid = UUID().uuidString
         let uid = UserDefaults.standard.string(forKey: "uid")!
         let ref = Database.database().reference().child("tasks").child(uid).child(uuid)
-//        return ref.rx_updateChildValues(values: params).map({ _ in true })
         return ref.rx_addValue(value: params as AnyObject, uid: uid, taskId: uuid).map({ _ in true })
     }
     

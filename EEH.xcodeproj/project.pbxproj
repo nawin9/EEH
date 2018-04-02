@@ -21,6 +21,7 @@
 		315CD1152071816A006C996F /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315CD1142071816A006C996F /* TaskDetailViewController.swift */; };
 		315CD1172071BD0A006C996F /* TaskCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315CD1162071BD0A006C996F /* TaskCreateViewController.swift */; };
 		317F1E1320727D5600736305 /* SwiftLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317F1E1220727D5600736305 /* SwiftLoader.swift */; };
+		317F1E152072D44A00736305 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317F1E142072D44A00736305 /* UIImage.swift */; };
 		318CDB6C205F0A2C00EBE14C /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318CDB6B205F0A2C00EBE14C /* Task.swift */; };
 		31A0B3762066A2B900AA4075 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31A0B3752066A2B900AA4075 /* GoogleService-Info.plist */; };
 		31A0B37B2066A6CF00AA4075 /* TaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A0B37A2066A6CF00AA4075 /* TaskService.swift */; };
@@ -80,6 +81,7 @@
 		315CD1142071816A006C996F /* TaskDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
 		315CD1162071BD0A006C996F /* TaskCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCreateViewController.swift; sourceTree = "<group>"; };
 		317F1E1220727D5600736305 /* SwiftLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftLoader.swift; sourceTree = "<group>"; };
+		317F1E142072D44A00736305 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		318CDB6B205F0A2C00EBE14C /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		31A0B3752066A2B900AA4075 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		31A0B37A2066A6CF00AA4075 /* TaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskService.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 				31A0B38B2068065B00AA4075 /* Firebase+Rx.swift */,
 				315CD112207129D1006C996F /* TimeInterval.swift */,
 				312969A120723A670030D30D /* Date.swift */,
+				317F1E142072D44A00736305 /* UIImage.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				317F1E1320727D5600736305 /* SwiftLoader.swift in Sources */,
 				31EDC37B206E58FC000B2CB4 /* RegisterViewModel.swift in Sources */,
 				318CDB6C205F0A2C00EBE14C /* Task.swift in Sources */,
+				317F1E152072D44A00736305 /* UIImage.swift in Sources */,
 				31C3FEEC20704CFA00C2A77F /* SpinnerLayer.swift in Sources */,
 				31231C2D205F0107005F0B4E /* AppDelegate.swift in Sources */,
 				31EDC386206EE666000B2CB4 /* MainViewController.swift in Sources */,

@@ -20,6 +20,7 @@ class TaskCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    var element: Task?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,6 +43,7 @@ class TaskCell: UICollectionViewCell {
     }
     
     func setupCell(task: Task) {
+        element = task
         imageView.isHidden = true
         titleLabel.isHidden = false
         dateLabel.isHidden = false
