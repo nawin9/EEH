@@ -14,7 +14,8 @@ import FirebaseAuth
 
 class MainViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
-    
+    var refreshControl: UIRefreshControl!
+
     private let disposeBag = DisposeBag()
     private let taskService = TaskService()
     private var viewModel: MainViewModel!
@@ -37,31 +38,45 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         let defaults = UserDefaults.standard
-        if let _ = defaults.string(forKey: "uid") { return }
+        if let _ = defaults.string(forKey: "uid") {
+            return
+        }
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let loginViewController = storyboard.instantiateViewController(withIdentifier: "idLoginViewController") as! LoginViewController
         self.present(loginViewController, animated: true, completion: nil)
+        
     }
     
     // MARK: Config binding
     func configBinding() {
         viewModel = MainViewModel(taskService: taskService)
+        
         viewModel
             .tasks
             .bind(to: self.collectionView.rx.items(cellIdentifier: "idTaskCell", cellType: TaskCell.self)) { row , element, cell in
-                if row == 0 {
-                    cell.setupDefaultCell()
-                } else {
+                if row > 0 {
                     cell.setupCell(task: element)
+                } else {
+                    cell.setupDefaultCell()
                 }
-                
             }
             .disposed(by: disposeBag)
 
+        viewModel
+            .isLoading
+            .subscribe(onNext: { loading in
+                if loading {
+                    SwiftLoader.show(title: "Loading...", animated: true)
+                } else {
+                    SwiftLoader.hide()
+                }
+            })
+            .disposed(by: disposeBag)
+        
         collectionView
             .rx
             .itemHighlighted
-            .subscribe(onNext: { indexPath in
+            .subscribe(onNext: { [unowned self] indexPath in
                 UIView.animate(withDuration: 0.5) {
                     if let cell = self.collectionView.cellForItem(at: indexPath) as? TaskCell {
                         cell.transform = .init(scaleX: 0.95, y: 0.95)
@@ -74,9 +89,9 @@ class MainViewController: UIViewController {
         collectionView
             .rx
             .itemUnhighlighted
-            .subscribe(onNext: { [weak self] indexPath in
+            .subscribe(onNext: { [unowned self] indexPath in
                 UIView.animate(withDuration: 0.5) {
-                    if let cell = self?.collectionView.cellForItem(at: indexPath) as? TaskCell {
+                    if let cell = self.collectionView.cellForItem(at: indexPath) as? TaskCell {
                         cell.transform = .identity
                         cell.contentView.backgroundColor = .clear
                     }
@@ -87,14 +102,26 @@ class MainViewController: UIViewController {
         collectionView
             .rx
             .itemSelected
-            .subscribe(onNext: { [weak self] indexPath in
+            .subscribe(onNext: { [unowned self] indexPath in
                 if indexPath.row > 0 {
-                    self?.performSegue(withIdentifier: "segueTaskDetail", sender: indexPath)
+                    self.performSegue(withIdentifier: "segueTaskDetail", sender: indexPath)
                 } else {
-                    self?.performSegue(withIdentifier: "segueTaskCreate", sender: indexPath)
+                    self.performSegue(withIdentifier: "segueTaskCreate", sender: indexPath)
                 }
             })
             .disposed(by: disposeBag)
+        
+        refreshControl
+            .rx
+            .controlEvent(.valueChanged)
+            .map { _ in self.refreshControl.isRefreshing }
+            .filter { $0 == true }
+            .subscribe(onNext: { [unowned self] _ in
+                self.refreshControl.endRefreshing()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.bindObservableToFetchTasks(refreshControl.rx.controlEvent(.valueChanged).asObservable())
     }
     
     func initialize() {
@@ -108,6 +135,12 @@ class MainViewController: UIViewController {
     }
     
     func setupViews() {
+        var config : SwiftLoader.Config = SwiftLoader.Config()
+        config.size = 150
+        config.spinnerColor = .red
+        config.foregroundColor = .black
+        config.foregroundAlpha = 0.5
+        SwiftLoader.setConfig(config: config)
         collectionView.delegate = nil
         collectionView.dataSource = nil
         let flowLayout = UICollectionViewFlowLayout()
@@ -117,6 +150,11 @@ class MainViewController: UIViewController {
         flowLayout.minimumLineSpacing = 20
         flowLayout.sectionInset = UIEdgeInsetsMake(20, 20, 20, 20)
         collectionView.setCollectionViewLayout(flowLayout, animated: true)
+        
+        refreshControl = UIRefreshControl()
+        collectionView.alwaysBounceVertical = true
+        refreshControl.tintColor = .green
+        collectionView.addSubview(refreshControl)
     }
     
 }
@@ -126,7 +164,6 @@ extension MainViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueTaskDetail" {
             if let _ = segue.destination as? TaskDetailViewController {
-//                destinationVC.numberToDisplay = counter
                 print(sender as! IndexPath)
             }
         } else if segue.identifier == "segueTaskCreate" {

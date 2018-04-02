@@ -10,8 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import FirebaseAuth
-//import JTMaterialTransition
-
 
 class LoginViewController: UIViewController {
     
@@ -20,46 +18,43 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var tkLoginButton: TKTransitionSubmitButton!
     
     var bottomConstraint: NSLayoutConstraint!
-    var loginViewModel: LoginViewModel!
+    var viewModel: LoginViewModel!
     let disposeBag = DisposeBag()
-//    var transition: JTMaterialTransition?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        emailTextField.delegate = self
-        passwordTextField.delegate = self
-        self.tkLoginButton.layer.cornerRadius = 5
-        loginViewModel = LoginViewModel()
+        setupViews()
         configBinding()
     }
-    
     
     // MARK: Config Binding
     
     func configBinding() {
+        viewModel = LoginViewModel()
+        
         emailTextField.rx.text
             .orEmpty
-            .bind(to: loginViewModel.emailText)
+            .bind(to: viewModel.emailText)
             .disposed(by: disposeBag)
         
         passwordTextField.rx.text
             .orEmpty
-            .bind(to: loginViewModel.passwordText)
+            .bind(to: viewModel.passwordText)
             .disposed(by: disposeBag)
         
         (tkLoginButton.rx.tap)
-            .bind(to: loginViewModel.loginButtonDidTap)
+            .bind(to: viewModel.loginButtonDidTap)
             .disposed(by: disposeBag)
         
-        loginViewModel.isValid
+        viewModel.isValid
             .subscribe(onNext: { [unowned self] isValid in
                 self.tkLoginButton.isEnabled = isValid
                 self.tkLoginButton.backgroundColor = isValid ? .green : .gray
             })
             .disposed(by: disposeBag)
         
-        loginViewModel.userObservable
+        viewModel.userObservable
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (user) in
                 self.tkLoginButton.startLoadingAnimation()
@@ -75,6 +70,13 @@ class LoginViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
+    }
+    
+    // MARK: Setup Views
+    func setupViews() {
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        self.tkLoginButton.layer.cornerRadius = 5
     }
 }
 

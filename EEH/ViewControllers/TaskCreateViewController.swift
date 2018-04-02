@@ -18,17 +18,18 @@ class TaskCreateViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var createTaskButton: UIButton!
+    @IBOutlet weak var pickerView: UIPickerView!
     
-    let taskTypes = ["Regular", "Important", "Urgent"]
     private let taskService = TaskService()
     private let disposeBag = DisposeBag()
     private var viewModel: TaskCreateViewModel!
+    private let taskTypes = ["Regular", "Important", "Urgent", "Important+Urgent"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupViews()
         configBinding()
     }
     
@@ -52,6 +53,19 @@ class TaskCreateViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        viewModel
+            .isLoading
+            .subscribe(onNext: { [unowned self] loading in
+                print("loading ", loading)
+                if loading {
+                    SwiftLoader.show(title: "Loading...", animated: true)
+                } else {
+                    SwiftLoader.hide()
+                    self.dismiss(animated: true, completion: nil)
+                }
+            })
+            .disposed(by: disposeBag)
+        
         (createTaskButton.rx.tap)
             .bind(to: viewModel.createButtonDidTap)
             .disposed(by: disposeBag)
@@ -66,33 +80,25 @@ class TaskCreateViewController: UIViewController {
         pickerView
             .rx
             .modelSelected(String.self)
-            .map({ $0[0] == "Important" })
+            .map({ $0[0] == "Important" || $0[0] == "Important+Urgent" })
             .bind(to: viewModel.importantBool)
             .disposed(by: disposeBag)
-        
+
         pickerView
             .rx
             .modelSelected(String.self)
-            .map({ $0[0] == "Urgent" })
+            .map({ $0[0] == "Urgent" || $0[0] == "Important+Urgent" })
             .bind(to: viewModel.urgentBool)
             .disposed(by: disposeBag)
-//            .map { item -> Bool in
-//                return item[0] ==
-//            }
-//            .bind(to: viewModel.type)
-//            .subscribe(onNext: { models in
-//                print("models selected 2: \(models)")
-//            })
-//            .disposed(by: disposeBag)
-        
-        
-//        pickerView
-//            .rx
-//            .itemSelected
-//            .subscribe(onNext: { [weak self] (row, component) in
-//                print(self?.taskTypes[row])
-//            })
-//            .disposed(by: disposeBag)
+    }
+    
+    func setupViews() {
+        var config : SwiftLoader.Config = SwiftLoader.Config()
+        config.size = 150
+        config.spinnerColor = .red
+        config.foregroundColor = .black
+        config.foregroundAlpha = 0.5
+        SwiftLoader.setConfig(config: config)
     }
     
 }

@@ -44,8 +44,20 @@ extension Auth {
                 if let error = error {
                     observer.onError(error)
                 } else {
-                    observer.onNext(user)
-                    observer.onCompleted()
+                    if let user = user {
+                        let ref: DatabaseReference = Database.database().reference().child("profiles").child(user.uid)
+                        var values = [String: AnyObject]()
+                        values["email"] = user.email as AnyObject
+                        ref.updateChildValues(values, withCompletionBlock: { (error, _) in
+                            if let error = error {
+                                observer.onError(error)
+                            } else {
+                                observer.onNext(user)
+                                observer.onCompleted()
+                            }
+                        })
+                    }
+//                    observer.onCompleted()
                 }
             })
             return Disposables.create()
@@ -96,15 +108,24 @@ extension DatabaseReference {
         }
     }
     
-    func rx_addValue(value: AnyObject, autoId: Bool = false) -> Observable<DatabaseReference> {
+    func rx_addValue(value: AnyObject, autoId: Bool = false, uid: String, taskId: String) -> Observable<DatabaseReference> {
         return Observable.create { observer -> Disposable in
-            let reference = autoId ? self.childByAutoId() : self
-            reference.setValue(value, withCompletionBlock: { (error, databaseReference) in
+            let ref = autoId ? self.childByAutoId() : self
+            ref.setValue(value, withCompletionBlock: { (error, databaseReference) in
                 if let error = error {
                     observer.onError(error)
                 } else {
-                    observer.onNext(databaseReference)
-                    observer.onCompleted()
+                    let profileRef = Database.database().reference().child("profiles").child(uid).child("tasks").child(taskId)
+                    profileRef.setValue(true as AnyObject, withCompletionBlock: { (error, _) in
+                        if let error = error {
+                            observer.onError(error)
+                        } else {
+                            observer.onNext(databaseReference)
+                            observer.onCompleted()
+                        }
+                    })
+//                    observer.onNext(databaseReference)
+//                    observer.onCompleted()
                 }
             })
             return Disposables.create()
@@ -137,18 +158,4 @@ extension DatabaseQuery {
             }
         })
     }
-    
-    
-    
-//    func rx_publish(object: AnyObject, atPath: String) -> Observable<Void> {
-//
-//        guard let database = Database.database() else {
-//            return Observable.error(FirebaseError.permission)
-//        }
-//
-//        return database
-//            .root
-//            .child(atPath)
-//            .rx_setValue(object: object)
-//    }
 }

@@ -22,12 +22,11 @@ struct RegisterViewModel {
     // MARK: Output
     let isValid: Observable<Bool>
     let isPasswordValid: Observable<Bool>
+    let userObservable = PublishRelay<User?>()
     
-    var disposeBag: DisposeBag!
+    private let disposeBag = DisposeBag()
     
-    init(disposeBag: DisposeBag) {
-        self.disposeBag = disposeBag
-        
+    init() {
         isValid = Observable.combineLatest(emailText.asObservable(), passwordText.asObservable(), rePasswordText.asObservable()) { $0.count >= 3 && $1.count >= 3 && $2.count >= 3 && $1 == $2 }
         isPasswordValid = Observable.combineLatest(passwordText.asObservable(), rePasswordText.asObservable()) { $0 == $1 }
         
@@ -36,10 +35,8 @@ struct RegisterViewModel {
             .withLatestFrom(emailAndPassword)
             .flatMapLatest({ (email, password) -> Observable<User?> in
                 return Auth.auth().rx_createUserWithEmail(email: email, password: password)
-            })
-            .subscribe(onNext: { user in
-                print(user?.email)
-            })
+            })            
+            .bind(to: self.userObservable)
             .disposed(by: disposeBag)
     }
     

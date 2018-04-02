@@ -18,37 +18,53 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var returnLoginButton: UIButton!
     
-    var registerViewModel: RegisterViewModel!
-    let disposeBag = DisposeBag()
+    @IBAction func dismissRegisterView(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    var viewModel: RegisterViewModel!
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        registerViewModel = RegisterViewModel(disposeBag: disposeBag)
+        
         configBinding()
     }
     
     func configBinding() {
+        viewModel = RegisterViewModel()
+        
         emailTextField.rx.text
             .orEmpty
-            .bind(to: registerViewModel.emailText)
+            .bind(to: viewModel.emailText)
             .disposed(by: disposeBag)
         
         passwordTextField.rx.text
             .orEmpty
-            .bind(to: registerViewModel.passwordText)
+            .bind(to: viewModel.passwordText)
             .disposed(by: disposeBag)
         
         rePasswordTextField.rx.text
             .orEmpty
-            .bind(to: registerViewModel.rePasswordText)
+            .bind(to: viewModel.rePasswordText)
             .disposed(by: disposeBag)
         
         (registerButton.rx.tap)
-            .bind(to: registerViewModel.registerButtonTap)
+            .bind(to: viewModel.registerButtonTap)
             .disposed(by: disposeBag)
         
-        registerViewModel.isValid
+        viewModel.isValid
             .bind(to: registerButton.rx.isEnabled)
             .disposed(by: disposeBag)
+        
+        viewModel
+            .userObservable
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] user in
+                if user != nil {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            })
+            .disposed(by: disposeBag)
+        
     }
 }

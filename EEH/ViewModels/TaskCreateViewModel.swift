@@ -17,9 +17,13 @@ class TaskCreateViewModel {
     let importantBool = BehaviorRelay<Bool>(value: false)
     let urgentBool = BehaviorRelay<Bool>(value: false)
     let createButtonDidTap = PublishSubject<Void>()
+    private let isLoadingVariable = BehaviorRelay<Bool>(value: false)
     
     // MARK: Output
     let isValid: Observable<Bool>
+    var isLoading: Observable<Bool> {
+        return self.isLoadingVariable.asObservable()
+    }
     
     private var taskService: TaskService!
     private let disposeBag = DisposeBag()
@@ -36,6 +40,7 @@ class TaskCreateViewModel {
         createButtonDidTap
             .withLatestFrom(result)
             .flatMapLatest({ (title, description, important, urgent) -> Observable<Bool> in
+                self.isLoadingVariable.accept(true)
                 var params = [String: AnyObject]()
                 params["title"] = title as AnyObject
                 params["description"] = description as AnyObject
@@ -48,6 +53,7 @@ class TaskCreateViewModel {
             })
             .subscribe(onNext: { done in
                 print("done: ", done)
+                self.isLoadingVariable.accept(false)
             })
             .disposed(by: disposeBag)
     }

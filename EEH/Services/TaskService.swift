@@ -29,13 +29,15 @@ final class TaskService: TaskServiceType {
     
     func create(params: [String: AnyObject]) -> Observable<Bool> {
         let uuid = UUID().uuidString
-        let ref = Database.database().reference().child("tasks").child(uuid)
+        let uid = UserDefaults.standard.string(forKey: "uid")!
+        let ref = Database.database().reference().child("tasks").child(uid).child(uuid)
 //        return ref.rx_updateChildValues(values: params).map({ _ in true })
-        return ref.rx_addValue(value: params as AnyObject).map({ _ in true })
+        return ref.rx_addValue(value: params as AnyObject, uid: uid, taskId: uuid).map({ _ in true })
     }
     
     func fetchTasks() -> Observable<[Task]> {
-        let ref = Database.database().reference().child("tasks")
+        let uid = UserDefaults.standard.string(forKey: "uid")!
+        let ref = Database.database().reference().child("tasks").child(uid)
         return ref.rx_observeSingleEvent(of: .value).map({ snapshot in
             var tasks: [Task] = [Task()]
             guard let snapshots = snapshot.children.allObjects as? [DataSnapshot] else {
