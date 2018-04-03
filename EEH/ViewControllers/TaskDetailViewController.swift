@@ -12,7 +12,7 @@ import RxCocoa
 
 class TaskDetailViewController: UIViewController {
     
-    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var importantImageView: UIImageView!
     @IBOutlet weak var urgentImageView: UIImageView!
     @IBOutlet weak var descriptionTextView: UITextView!
@@ -24,19 +24,18 @@ class TaskDetailViewController: UIViewController {
     private let taskService = TaskService()
     private var viewModel: TaskDetailViewModel!
     
-    var task: Task?
+    var taskId: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupViews()
         configBinding()
     }
     
     func configBinding() {
-        viewModel = TaskDetailViewModel(taskService: taskService, taskId: (task?.id)!)
+        viewModel = TaskDetailViewModel(taskService: taskService, taskId: taskId)
         
-        titleTextField.rx.text
+        titleTextView.rx.text
             .orEmpty
             .bind(to: viewModel.titleText)
             .disposed(by: disposeBag)
@@ -44,6 +43,36 @@ class TaskDetailViewController: UIViewController {
         descriptionTextView.rx.text
             .orEmpty
             .bind(to: viewModel.descriptionText)
+            .disposed(by: disposeBag)
+        
+        viewModel.titleText
+            .asObservable()
+            .bind(to: titleTextView.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.descriptionText
+            .asObservable()
+            .bind(to: descriptionTextView.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.importantBool
+            .asObservable()
+            .subscribe(onNext: { important in
+                self.importantImageView.image = important ? #imageLiteral(resourceName: "ic-important-white") : #imageLiteral(resourceName: "ic-important-fade")
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.urgentBool
+            .asObservable()
+            .subscribe(onNext: { urgent in
+                self.urgentImageView.image = urgent ? #imageLiteral(resourceName: "ic-urgent-white") : #imageLiteral(resourceName: "ic-urgent-fade")
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.dateTimeInterval
+            .asObservable()
+            .map({ $0.getStrDate() })
+            .bind(to: dateLabel.rx.text)
             .disposed(by: disposeBag)
         
         viewModel.isValid
@@ -96,6 +125,15 @@ class TaskDetailViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        importantTapGesture
+            .rx
+            .event
+            .map({ recognizer in
+                return self.importantImageView.image == #imageLiteral(resourceName: "ic-important-white")
+            })
+            .bind(to: viewModel.importantBool)
+            .disposed(by: disposeBag)
+        
         let urgentTapGesture = UITapGestureRecognizer()
         urgentImageView.addGestureRecognizer(urgentTapGesture)
         urgentImageView.isUserInteractionEnabled = true
@@ -110,13 +148,17 @@ class TaskDetailViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
+        
+        urgentTapGesture
+            .rx
+            .event
+            .map({ recognizer in
+                return self.urgentImageView.image == #imageLiteral(resourceName: "ic-urgent-white")
+            })
+            .bind(to: viewModel.urgentBool)
+            .disposed(by: disposeBag)
+        
+        viewModel.callToFetchTask(taskId: taskId)
     }
     
-    func setupViews() {
-        titleTextField.text = task?.title
-        descriptionTextView.text = task?.description
-        importantImageView.image = (task?.important)! ? #imageLiteral(resourceName: "ic-important-white") : #imageLiteral(resourceName: "ic-important-fade")
-        urgentImageView.image = (task?.urgent)! ? #imageLiteral(resourceName: "ic-urgent-white") : #imageLiteral(resourceName: "ic-urgent-fade")
-        dateLabel.text = task?.createdAt.getStrDate()
-    }
 }

@@ -14,6 +14,7 @@ class TaskDetailViewModel {
     // MARK: Input
     let titleText = BehaviorRelay<String>(value: "")
     let descriptionText = BehaviorRelay<String>(value: "")
+    let dateTimeInterval = BehaviorRelay<TimeInterval>(value: 0)
     let importantBool = BehaviorRelay<Bool>(value: false)
     let urgentBool = BehaviorRelay<Bool>(value: false)
     let saveButtonDidTap = PublishSubject<Void>()
@@ -74,3 +75,23 @@ class TaskDetailViewModel {
     }
 }
 
+extension TaskDetailViewModel {
+    // MARK: Public
+    func callToFetchTask(taskId: String) {
+        Observable.just(taskId)
+            .flatMap({ self.fetchTaskByIdObservable(taskId: $0) })
+            .subscribe(onNext: { task in
+                self.titleText.accept(task.title)
+                self.descriptionText.accept(task.description)
+                self.importantBool.accept(task.important)
+                self.urgentBool.accept(task.urgent)
+                self.dateTimeInterval.accept(task.createdAt)
+            })
+            .disposed(by: self.disposeBag)
+    }
+    
+    // MARK: Private
+    private func fetchTaskByIdObservable(taskId: String) -> Observable<Task> {
+        return self.taskService.fetchTaskById(taskId: taskId)
+    }
+}

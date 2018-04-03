@@ -29,7 +29,6 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: Config Binding
-    
     func configBinding() {
         viewModel = LoginViewModel()
         
@@ -92,8 +91,7 @@ extension LoginViewController: UIViewControllerTransitioningDelegate {
 
 extension LoginViewController: UITextFieldDelegate {
     
-    // MARK: TextField Delegate
-    
+    // MARK: TextField Delegate    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

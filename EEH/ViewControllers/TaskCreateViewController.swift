@@ -29,7 +29,6 @@ class TaskCreateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupViews()
         configBinding()
     }
     
@@ -90,15 +89,6 @@ class TaskCreateViewController: UIViewController {
             .map({ $0[0] == "Urgent" || $0[0] == "Important+Urgent" })
             .bind(to: viewModel.urgentBool)
             .disposed(by: disposeBag)
-    }
-    
-    func setupViews() {
-        var config : SwiftLoader.Config = SwiftLoader.Config()
-        config.size = 150
-        config.spinnerColor = .red
-        config.foregroundColor = .black
-        config.foregroundAlpha = 0.5
-        SwiftLoader.setConfig(config: config)
     }
     
 }

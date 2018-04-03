@@ -25,4 +25,5 @@ The app allows users to manage their tasks via Eisenhower matrix. You can find t
 # Authors
 
 nawin.kim@epitech.eu
+
 florian.tousch@epitech.eu

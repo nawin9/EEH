@@ -18,26 +18,35 @@ protocol TaskServiceType {
 
 final class TaskService: TaskServiceType {
     func update(taskId: String, params: [String: AnyObject]) -> Observable<Bool> {
-        let uid = UserDefaults.standard.string(forKey: "uid")!
+        guard let uid = UserDefaults.standard.string(forKey: "uid") else {
+            return Observable.just(false)
+        }
         let ref = Database.database().reference().child("tasks").child(uid).child(taskId)
         return ref.rx_setValue(value: params as AnyObject).map({ _ in true })
     }
     
     func delete(taskId: String) -> Observable<Bool> {
-        let uid = UserDefaults.standard.string(forKey: "uid")!
+        guard let uid = UserDefaults.standard.string(forKey: "uid") else {
+            return Observable.just(false)
+        }
         let ref = Database.database().reference().child("tasks").child(uid).child(taskId)
         return ref.rx_removeValue().map({ _ in true })
     }
     
     func create(params: [String: AnyObject]) -> Observable<Bool> {
         let uuid = UUID().uuidString
-        let uid = UserDefaults.standard.string(forKey: "uid")!
+        guard let uid = UserDefaults.standard.string(forKey: "uid") else {
+            return Observable.just(false)
+        }
         let ref = Database.database().reference().child("tasks").child(uid).child(uuid)
         return ref.rx_addValue(value: params as AnyObject, uid: uid, taskId: uuid).map({ _ in true })
     }
     
     func fetchTasks() -> Observable<[Task]> {
-        let uid = UserDefaults.standard.string(forKey: "uid")!
+        guard let uid = UserDefaults.standard.string(forKey: "uid") else {
+            let tasks: [Task] = [Task()]
+            return Observable.just(tasks)
+        }
         let ref = Database.database().reference().child("tasks").child(uid)
         return ref.rx_observeSingleEvent(of: .value).map({ snapshot in
             var tasks: [Task] = [Task()]
@@ -50,6 +59,19 @@ final class TaskService: TaskServiceType {
                 }
             }
             return tasks.sorted(by: { $0.priority > $1.priority })
+        })
+    }
+    
+    func fetchTaskById(taskId: String) -> Observable<Task> {
+        guard let uid = UserDefaults.standard.string(forKey: "uid") else {
+            return Observable.just(Task())
+        }
+        let ref = Database.database().reference().child("tasks").child(uid).child(taskId)
+        return ref.rx_observeSingleEvent(of: .value).map({ snapshot in
+            guard let task = Task(snapshot: snapshot) else {
+                return Task()
+            }
+            return task
         })
     }
 

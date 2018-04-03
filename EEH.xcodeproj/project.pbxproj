@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		31048D842073FEF000154FF9 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31048D832073FEF000154FF9 /* UIView.swift */; };
+		31048D882074062F00154FF9 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31048D872074062F00154FF9 /* ProfileService.swift */; };
+		31048D8A2074068600154FF9 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31048D892074068600154FF9 /* Profile.swift */; };
+		31048D8C2074125C00154FF9 /* UIImagePickerController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31048D8B2074125C00154FF9 /* UIImagePickerController+Rx.swift */; };
 		31231C2D205F0107005F0B4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31231C2C205F0107005F0B4E /* AppDelegate.swift */; };
 		31231C32205F0107005F0B4E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31231C30205F0107005F0B4E /* Main.storyboard */; };
 		31231C34205F0107005F0B4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31231C33205F0107005F0B4E /* Assets.xcassets */; };
@@ -61,6 +65,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		31048D832073FEF000154FF9 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		31048D872074062F00154FF9 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		31048D892074068600154FF9 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		31048D8B2074125C00154FF9 /* UIImagePickerController+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+Rx.swift"; sourceTree = "<group>"; };
 		31231C29205F0107005F0B4E /* EEH.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EEH.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31231C2C205F0107005F0B4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31231C31205F0107005F0B4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -162,7 +170,7 @@
 				317F1E1120727D3F00736305 /* SwiftLoader */,
 				31A0B38A2068064800AA4075 /* Extensions */,
 				31C3FEE420704C2900C2A77F /* TKSubmitButton */,
-				315CD1072070E5FE006C996F /* ViewCells */,
+				315CD1072070E5FE006C996F /* Views */,
 				31A0B37F2066F5A600AA4075 /* ViewControllers */,
 				31A0B37C2066F4BD00AA4075 /* ViewModels */,
 				31A0B3792066A6BA00AA4075 /* Services */,
@@ -195,12 +203,12 @@
 			path = EEHUITests;
 			sourceTree = "<group>";
 		};
-		315CD1072070E5FE006C996F /* ViewCells */ = {
+		315CD1072070E5FE006C996F /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				315CD10A2070E633006C996F /* TaskCell.swift */,
 			);
-			path = ViewCells;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		317F1E1120727D3F00736305 /* SwiftLoader */ = {
@@ -215,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				318CDB6B205F0A2C00EBE14C /* Task.swift */,
+				31048D892074068600154FF9 /* Profile.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -223,6 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				31A0B37A2066A6CF00AA4075 /* TaskService.swift */,
+				31048D872074062F00154FF9 /* ProfileService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -260,6 +270,8 @@
 				315CD112207129D1006C996F /* TimeInterval.swift */,
 				312969A120723A670030D30D /* Date.swift */,
 				317F1E142072D44A00736305 /* UIImage.swift */,
+				31048D832073FEF000154FF9 /* UIView.swift */,
+				31048D8B2074125C00154FF9 /* UIImagePickerController+Rx.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -561,12 +573,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				315CD10B2070E633006C996F /* TaskCell.swift in Sources */,
+				31048D8A2074068600154FF9 /* Profile.swift in Sources */,
 				31A0B37B2066A6CF00AA4075 /* TaskService.swift in Sources */,
 				31A0B37E2066F4E600AA4075 /* TaskDetailViewModel.swift in Sources */,
 				31EDC379206E3926000B2CB4 /* RegisterViewController.swift in Sources */,
 				31A0B383206703E100AA4075 /* LoginViewController.swift in Sources */,
 				315CD1152071816A006C996F /* TaskDetailViewController.swift in Sources */,
 				31A0B38C2068065B00AA4075 /* Firebase+Rx.swift in Sources */,
+				31048D8C2074125C00154FF9 /* UIImagePickerController+Rx.swift in Sources */,
+				31048D842073FEF000154FF9 /* UIView.swift in Sources */,
 				31A0B38920672F5F00AA4075 /* MainViewModel.swift in Sources */,
 				317F1E1320727D5600736305 /* SwiftLoader.swift in Sources */,
 				31EDC37B206E58FC000B2CB4 /* RegisterViewModel.swift in Sources */,
@@ -575,6 +590,7 @@
 				31C3FEEC20704CFA00C2A77F /* SpinnerLayer.swift in Sources */,
 				31231C2D205F0107005F0B4E /* AppDelegate.swift in Sources */,
 				31EDC386206EE666000B2CB4 /* MainViewController.swift in Sources */,
+				31048D882074062F00154FF9 /* ProfileService.swift in Sources */,
 				31C3FEEA20704CCE00C2A77F /* TimerExtension.swift in Sources */,
 				31C3FEE820704C9000C2A77F /* TKFadeAnimator.swift in Sources */,
 				31BF5076206D9BB500549CD1 /* ProfileViewModel.swift in Sources */,

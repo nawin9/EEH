@@ -13,6 +13,7 @@ import Firebase
 import FirebaseAuth
 
 class MainViewController: UIViewController {
+    
     @IBOutlet weak var collectionView: UICollectionView!
     var refreshControl: UIRefreshControl!
 
@@ -33,7 +34,7 @@ class MainViewController: UIViewController {
         }
         setupViews()
         configBinding()
-        initialize()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,7 +45,10 @@ class MainViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let loginViewController = storyboard.instantiateViewController(withIdentifier: "idLoginViewController") as! LoginViewController
         self.present(loginViewController, animated: true, completion: nil)
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        initialize()
     }
     
     // MARK: Config binding
@@ -131,7 +135,6 @@ class MainViewController: UIViewController {
             return Disposables.create()
         }
         viewModel.bindObservableToFetchTasks(observable)
-    
     }
     
     func setupViews() {
@@ -165,7 +168,7 @@ extension MainViewController {
         if segue.identifier == "segueTaskDetail" {
             if let destinationVC = segue.destination as? TaskDetailViewController {
                 if let cell = self.collectionView.cellForItem(at: sender as! IndexPath) as? TaskCell, let task = cell.element {
-                    destinationVC.task = task
+                    destinationVC.taskId = task.id
                 }
             }
         } else if segue.identifier == "segueTaskCreate" {

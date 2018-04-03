@@ -10,7 +10,7 @@ import FirebaseAuth
 import RxSwift
 import RxCocoa
 
-struct LoginViewModel {
+class LoginViewModel {
     
     // MARK: Input
     let emailText = BehaviorRelay<String>(value: "")

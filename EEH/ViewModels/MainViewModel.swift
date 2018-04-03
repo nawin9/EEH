@@ -9,7 +9,7 @@
 import RxSwift
 import RxCocoa
 
-struct MainViewModel {
+class MainViewModel {
     
     // MARK: Public
     var tasks: Observable<[Task]> {
@@ -23,7 +23,6 @@ struct MainViewModel {
     }
     
     // MARK: Private
-    
     private let tasksVariable = BehaviorRelay<[Task]>(value: [])
     private let isLoadingVariable = BehaviorRelay<Bool>(value: false)
     private let errorSubject = PublishSubject<Error>()
@@ -49,10 +48,8 @@ extension MainViewModel {
             .disposed(by: self.disposeBag)
     }
     
-    // MARK: Private
-    
+    // MARK: Private    
     private func fetchTasksObservable() -> Observable<[Task]> {
         return self.taskService.fetchTasks()
-        
     }
 }
